@@ -1,10 +1,14 @@
 package pl.agawrysiuk.imageupscalerwrapper.validator
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import pl.agawrysiuk.imageupscalerwrapper.dto.ImageUpscalerData
 import pl.agawrysiuk.imageupscalerwrapper.dto.ImageUpscalerWrapperRequest
 import org.springframework.util.ResourceUtils
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 class RequestValidatorServiceTest {
 
@@ -43,34 +47,17 @@ class RequestValidatorServiceTest {
     }
 
     @Test
-    fun `validate should return errors for missing output folder`() {
+    fun `validate should create missing output folder`() {
         val request = ImageUpscalerWrapperRequest(
             data = listOf(
-                ImageUpscalerData("$INPUT_DIR/input1.txt", "/invalid/output")
+                ImageUpscalerData("$INPUT_DIR/input1.txt", "$OUTPUT_DIR/output"),
             )
         )
 
         val result = validatorService.validate(request)
 
-        assertEquals(1, result.size)
-        assertEquals("Output folder does not exist: /invalid/output", result[0])
-    }
-
-    @Test
-    fun `validate should return multiple errors for missing files and folders`() {
-        val request = ImageUpscalerWrapperRequest(
-            data = listOf(
-                ImageUpscalerData("/invalid/input1.jpg", "/invalid/output1"),
-                ImageUpscalerData("/invalid/input2.jpg", "/invalid/output2")
-            )
-        )
-
-        val result = validatorService.validate(request)
-
-        assertEquals(4, result.size)
-        assertEquals("Input file does not exist: /invalid/input1.jpg", result[0])
-        assertEquals("Output folder does not exist: /invalid/output1", result[1])
-        assertEquals("Input file does not exist: /invalid/input2.jpg", result[2])
-        assertEquals("Output folder does not exist: /invalid/output2", result[3])
+        assertEquals(0, result.size)
+        assertTrue(File("$OUTPUT_DIR/output").exists())
+        Files.delete(Paths.get("$OUTPUT_DIR/output"))
     }
 }

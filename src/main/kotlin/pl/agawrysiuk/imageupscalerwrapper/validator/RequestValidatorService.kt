@@ -3,6 +3,8 @@ package pl.agawrysiuk.imageupscalerwrapper.validator
 import org.springframework.stereotype.Service
 import pl.agawrysiuk.imageupscalerwrapper.dto.ImageUpscalerWrapperRequest
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 @Service
 class RequestValidatorService {
@@ -13,7 +15,7 @@ class RequestValidatorService {
                 validationResults.add("Input file does not exist: ${it.inputFilePath}")
             }
             if (!File(it.outputDirPath).exists()) {
-                validationResults.add("Output folder does not exist: ${it.outputDirPath}")
+                Files.createDirectories(Paths.get(it.outputDirPath))
             }
         }
         return validationResults
