@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: image-upscaler-wrapper
+
+upscaler:
+  realesrgan:
+    path: ${REAL_ESRGAN_PATH}
