@@ -8,6 +8,10 @@ https://github.com/xinntao/Real-ESRGAN?tab=readme-ov-file#-demos-videos
 
 (executable file version)
 
+## DTOs
+
+Use the dtos from [https://github.com/agawrysiuk/image-upscaler-wrapper-dto](https://github.com/agawrysiuk/image-upscaler-wrapper-dto)
+
 ## Use
 
 Define the path to your local upscaler in the `REAL_ESRGAN_PATH` system env.
